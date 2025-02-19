@@ -1,4 +1,4 @@
-const generateCaptchaSchema = {
+export const generateCaptchaSchema = {
   response: {
     200: {
       type: "object",
@@ -11,5 +11,3 @@ const generateCaptchaSchema = {
     "5xx": { type: "string" },
   },
 };
-
-export default generateCaptchaSchema;

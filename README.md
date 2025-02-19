@@ -24,4 +24,25 @@ Run the server:
 npm run dev
 ```
 
-## Run tests
+## Run unit tests
+
+
+## Test manually
+
+Start the service locally following [these steps](#local-environment).
+
+Generate a new captcha with the [/generate-captcha](./docs/Usage.md#post-generate-captcha) endpoint:
+
+```bash
+curl -X POST http://127.0.0.1:3000/generate-captcha
+```
+
+Save the captcha id, copy paste the captcha svg tag in a viewer like [this one](https://www.svgviewer.dev/) and read the captcha text.
+
+Validate the captcha with the [/validate-captcha] endpoint. Specify the captcha id and the text in the request body:
+
+```bash
+curl -X POST "http://127.0.0.1:3000/validate-captcha" \
+-H "Content-Type: application/json" \
+-d '{"id":"$CAPTCHA_ID", "text": "$CAPTCHA_TEXT"}'
+```

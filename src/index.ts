@@ -1,27 +1,29 @@
 import fastify, { FastifyInstance } from "fastify";
 
 import { connectToMongoDB } from "./db-config/mongodb";
-import generateCaptchaHandler from "./endpoints/generate-captcha/handler";
-import generateCaptchaSchema from "./endpoints/generate-captcha/schema";
-import validateCaptchaHandler from "./endpoints/validate-captcha/handler";
-import validateCaptchaSchema from "./endpoints/validate-captcha/schema";
 import { getErrorMessage } from "./utilities/errors";
+import generateCaptchaHandler from "./endpoints/generate-captcha/handler";
+import { generateCaptchaSchema } from "./endpoints/generate-captcha/schema";
+import validateCaptchaHandler from "./endpoints/validate-captcha/handler";
+import {
+  validateCaptchaSchema,
+  ValidateCaptchaBody,
+} from "./endpoints/validate-captcha/schema";
 
 export function buildFastify(): FastifyInstance {
-  const server = fastify();  
-  
-  server.post("/generate-captcha", {
+  const server = fastify();
+
+  server.post<{ Body: ValidateCaptchaBody }>("/generate-captcha", {
     handler: generateCaptchaHandler,
     schema: generateCaptchaSchema,
   });
-  
+
   server.post("/validate-captcha", {
     handler: validateCaptchaHandler,
     schema: validateCaptchaSchema,
   });
-  return server
+  return server;
 }
-
 
 const start = async (server: FastifyInstance): Promise<void> => {
   try {

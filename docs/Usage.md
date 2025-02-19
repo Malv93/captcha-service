@@ -1,29 +1,6 @@
 # Captcha Service Usage
 
-The document describes how to use the Captcha Service.
-
-The microservice allows to generate new captchas and to validate previously generated captchas against an input text. It exposes a synchronous HTTP REST API with two endpoints: [POST /generate-captcha](#post-generate-captcha) and [POST /validate-captcha](#post-validate-captcha).
-
-## Sequence diagram
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant Captcha Service
-    participant Database
-
-    Client->>Captcha Service: POST /generate-captcha
-    Captcha Service->>Database: Create new captcha
-    Database->>Captcha Service: {id, svg}
-    Captcha Service->>Client: {id, svg}
-    Client->>Captcha Service: POST /validate-captcha {id, text}
-    Captcha Service->>Database: Get captcha by id
-    Database->>Captcha Service: {id, svg, text}
-    Captcha Service->>Captcha Service: Validate captcha
-    Captcha Service->>Database: Deprecate captcha
-    Captcha Service->>Database: Save validation result
-    Captcha Service->>Client: Validation Result
-```
+The document describes how to use the Captcha Service API.
 
 ## Endpoints
 
@@ -37,10 +14,16 @@ Even if no body is necessary in the request, this endpoint is designed with a PO
 
 The request has no body.
 
+Example of request:
+```bash
+curl -X POST "http://captcha-service/generate-captcha"
+```
+
 #### Response
 
 In case of success the response has a status code of `200` and a body with the newly generated captcha id and the captcha svg.
 
+Response body:
 ```json
 {
   "id": {"type": "string"},
@@ -56,11 +39,19 @@ The endpoint validates a captcha against a text.
 
 The request body contains the id of the captcha and a text that must be validated against it.
 
+Response body:
 ```json
 {
   "id": {"type": "string"},
   "text": {"type": "string"}
 }
+```
+
+Example of request:
+```bash
+curl -X POST "http://captcha-service/validate-captcha" \
+-H "Content-Type: application/json" \
+-d '{"id":"67b4b46dd0fac00f1fb9d7cf", "text": "zeISGG"}'
 ```
 
 #### Response
