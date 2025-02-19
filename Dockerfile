@@ -12,4 +12,6 @@ RUN npm run build
 
 EXPOSE 3000
 
+ENV MONGODB_URI=""
+
 CMD ["node", "build/index.js"]
