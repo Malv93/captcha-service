@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 
 import { connectToMongoDB } from "./db-config/mongodb";
-import { getErrorMessage } from "./utilities/errors";
+import { getErrorMessage } from "./lib/errors";
 import generateCaptchaHandler from "./endpoints/generate-captcha/handler";
 import { generateCaptchaSchema } from "./endpoints/generate-captcha/schema";
 import validateCaptchaHandler from "./endpoints/validate-captcha/handler";
@@ -22,10 +22,11 @@ export function buildFastify(): FastifyInstance {
     handler: validateCaptchaHandler,
     schema: validateCaptchaSchema,
   });
+
   return server;
 }
 
-const start = async (server: FastifyInstance): Promise<void> => {
+export async function start(server: FastifyInstance): Promise<void> {
   try {
     await connectToMongoDB(
       process.env.MONGODB_URI || "mongodb://localhost:27017/captcha-db"
@@ -36,6 +37,6 @@ const start = async (server: FastifyInstance): Promise<void> => {
     console.error({ message: getErrorMessage(error) });
     process.exit(1);
   }
-};
+}
 
 start(buildFastify());

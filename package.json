@@ -5,9 +5,10 @@
     "build": "tsc -p tsconfig.json",
     "start": "node --env-file=.env build/index.js",
     "dev": "ts-node-dev --respawn --transpile-only --env-file=.env src/index.ts",
+    "start:mongodb": "docker run -d --name mongodb -p 27017:27017 mongo:8.0",
     "test": "jest",
     "lint": "eslint .",
-    "start:mongodb": "docker run -d --name mongodb -p 27017:27017 mongo:8.0"
+    "coverage": "jest --coverage --watchAll=false --collectCoverageFrom=src/**/*.ts"
   },
   "dependencies": {
     "@types/mongodb": "^4.0.6",

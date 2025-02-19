@@ -35,11 +35,13 @@ Response body:
 
 The endpoint validates a captcha against a text.
 
+A captcha can't be validated multiple times, but it is marked as deprecated after the first validation attempt.
+
 #### Request
 
 The request body contains the id of the captcha and a text that must be validated against it.
 
-Response body:
+Request body:
 ```json
 {
   "id": {"type": "string"},

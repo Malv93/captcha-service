@@ -1,9 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ObjectId } from "mongodb";
 
 import { CaptchaModel } from "../../models/captcha.model";
-import { ValidationModel } from "../../models/validation.model";
-import { getErrorMessage } from "../../utilities/errors";
+import { getErrorMessage } from "../../lib/errors";
 import { ValidateCaptchaBody } from "./schema";
 
 const validateCaptchaHandler = async function (

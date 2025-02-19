@@ -1,10 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import svgCaptcha from "svg-captcha";
 import { ObjectId } from "mongodb";
 
 import { CaptchaModel } from "../../models/captcha.model";
-import { getErrorMessage } from "../../utilities/errors";
-import { replaceEscapedDoublequotes } from "../../utilities/svg";
+import { getErrorMessage } from "../../lib/errors";
+import { createCaptcha, replaceEscapedDoublequotes } from "../../lib/captcha";
 
 const generateCaptchaHandler = async function (
   request: FastifyRequest,
@@ -12,11 +11,7 @@ const generateCaptchaHandler = async function (
 ): Promise<void> {
   try {
     console.debug("Start request to POST /generate-captcha");
-    const captcha = svgCaptcha.create({
-      size: 6,
-      noise: 2,
-      color: false,
-    });
+    const captcha = createCaptcha();
 
     const captchaDocument = new CaptchaModel({
       svg: replaceEscapedDoublequotes(captcha.data),
@@ -32,8 +27,8 @@ const generateCaptchaHandler = async function (
     console.debug("End request to POST /generate-captcha");
     return reply.code(200).send({ svg, id: _id.toString() });
   } catch (error) {
-    console.error({message: getErrorMessage(error)});
-    return reply.code(500).send("Failed to genereate the captcha")
+    console.error({ message: getErrorMessage(error) });
+    return reply.code(500).send("Failed to genereate the captcha");
   }
 };
 
