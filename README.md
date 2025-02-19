@@ -50,7 +50,7 @@ curl -X POST "http://127.0.0.1:3000/generate-captcha"
 
 Save the captcha id, copy paste the captcha svg tag in a viewer like [this one](https://www.svgviewer.dev/) and read the captcha text.
 
-Validate the captcha with the [/validate-captcha](./docs/Usage.md#post-validate-captcha) endpoint. Specify the captcha id and the text in the request body:
+Validate the captcha with the [/validate-captcha](./docs/Usage.md#post-validate-captcha) endpoint, adding the captcha id and the captcha text in the request body:
 
 ```bash
 curl -X POST "http://127.0.0.1:3000/validate-captcha" \
