@@ -1,6 +1,6 @@
 # Captcha Service
 
-The **Captcha Service** allows to generate new captchas and to validate previously generated captchas.
+The **Captcha Service** allows to generate new captchas and to validate previously generated captchas. Read the [Overview](./docs/Overview.md) and the [Usage](./docs/Usage.md) documentation for more details.
 
 ## Run unit tests
 
@@ -56,4 +56,18 @@ Validate the captcha with the [/validate-captcha](./docs/Usage.md#post-validate-
 curl -X POST "http://127.0.0.1:3000/validate-captcha" \
 -H "Content-Type: application/json" \
 -d '{"id":"$CAPTCHA_ID", "text": "$CAPTCHA_TEXT"}'
+```
+
+## Ship with Docker
+
+Build a docker image:
+
+```bash
+docker build -t captcha-service:0.1.0 .
+```
+
+Run a container passing the `MONGODB_URI` environment variable with an `.env` file:
+
+```bash
+docker run -p 3000:3000 --env-file=.env captcha-service:0.1.0
 ```
